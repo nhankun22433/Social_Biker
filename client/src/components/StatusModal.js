@@ -118,7 +118,7 @@ const StatusModal = () => {
 
                 <div className="status_body">
                     <textarea name="content" value={content}
-                    placeholder={`${auth.user.username}, what are you thinking?`}
+                    placeholder={`${auth.user.fullname}, what are you thinking?`}
                     onChange={e => setContent(e.target.value)}
                     style={{
                         filter: theme ? 'invert(1)' : 'invert(0)',

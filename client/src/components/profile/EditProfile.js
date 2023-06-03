@@ -22,7 +22,7 @@ const EditProfile = ({setOnEdit}) => {
 
 
     const changeAvatar = (e) => {
-        const file = e.target.files[0]
+        const file = e.target.files[0] 
 
         const err = checkImage(file)
         if(err) return dispatch({
