@@ -24,17 +24,17 @@ const ShareModal = ({url, theme}) => {
                 <EmailIcon round={true} size={32} />
             </EmailShareButton>
 
-            <RedditShareButton url={url} >
+            {/* <RedditShareButton url={url} >
                 <RedditIcon round={true} size={32} />
-            </RedditShareButton>
+            </RedditShareButton> */}
 
             <TelegramShareButton url={url} >
                 <TelegramIcon round={true} size={32} />
             </TelegramShareButton>
 
-            <WhatsappShareButton url={url} >
+            {/* <WhatsappShareButton url={url} >
                 <WhatsappIcon round={true} size={32} />
-            </WhatsappShareButton>
+            </WhatsappShareButton> */}
         </div>
     )
 }

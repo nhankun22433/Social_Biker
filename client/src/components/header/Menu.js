@@ -8,9 +8,9 @@ import NotifyModal from '../NotifyModal'
 
 const Menu = () => {
     const navLinks = [
-        { label: 'Home', icon: 'home', path: '/'},
-        { label: 'Message', icon: 'near_me', path: '/message'},
-        { label: 'Discover', icon: 'explore', path: '/discover'}
+      { label: 'Home', icon: 'home', path: '/' },
+      { label: 'Message', icon: 'message', path: '/message' },
+      { label: 'Discover', icon: 'explore', path: '/discover' },
     ]
 
     const { auth, theme, notify } = useSelector(state => state)
