@@ -30,7 +30,7 @@ const Posts = ({auth, id, dispatch, profile}) => {
     }
 
     return (
-      <div className='m-lg-5'>
+      <div className=''>
         <PostThumb posts={posts} result={result} />
 
         {load && (
