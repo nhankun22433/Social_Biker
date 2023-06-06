@@ -63,13 +63,13 @@ const Info = ({id, auth, profile, dispatch}) => {
                 </span>
               </div>
 
-              <span className='text-danger'>Phone: {user.mobile}</span>
-              <p className='m-0'>Address: {user.address}</p>
-              <h6 className='m-0'>Email: {user.email}</h6>
+              <span className='text-danger'>{user.mobile}</span>
+              <p className='m-0'>{user.address}</p>
+              <h6 className='m-0'>{user.email}</h6>
               <a href={user.website} target='_blank' rel='noreferrer'>
                 {user.website}
               </a>
-              <p>Story: {user.story}</p>
+              <p>{user.story}</p>
             </div>
 
             {onEdit && <EditProfile setOnEdit={setOnEdit} />}

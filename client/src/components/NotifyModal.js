@@ -31,7 +31,7 @@ const NotifyModal = () => {
         <div style={{minWidth: '300px'}}>
             <div className="d-flex justify-content-between align-items-center px-3">
                 <h3>Notification</h3>
-                {
+                {/* {
                     notify.sound 
                     ? <i className="fas fa-bell text-danger" 
                     style={{fontSize: '1.2rem', cursor: 'pointer'}}
@@ -40,7 +40,7 @@ const NotifyModal = () => {
                     : <i className="fas fa-bell-slash text-danger"
                     style={{fontSize: '1.2rem', cursor: 'pointer'}}
                     onClick={handleSound} />
-                }
+                } */}
             </div>
             <hr className="mt-0" />
 
