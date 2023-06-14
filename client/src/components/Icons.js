@@ -4,8 +4,12 @@ const Icons = ({setContent, content, theme}) => {
     const reactions = [
       '❤️',
       '😆',
+      '🤣',
+      '🙃',
       '😯',
       '😢',
+      '🏍️',
+      '🏍',
       '😡',
       '👍',
       '👎',
