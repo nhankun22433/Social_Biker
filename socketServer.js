@@ -156,7 +156,7 @@ const SocketServer = (socket) => {
         }
     })
 
-    socket.on('endCall', data => {
+    socket.on('endCall', data => { 
         const client = users.find(user => user.id === data.sender)
 
         if(client){
