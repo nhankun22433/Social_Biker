@@ -6,7 +6,7 @@ import { addMessage } from '../../redux/actions/messageAction'
 import RingRing from '../../audio/message.mp3'
 
 const CallModal = () => {
-  const { call, auth, peer, socket, theme } = useSelector((state) => state)
+  const { call, auth, peer, socket, theme } = useSelector(state => state)
   const dispatch = useDispatch()
 
   const [hours, setHours] = useState(0)
@@ -23,7 +23,7 @@ const CallModal = () => {
   // Set Time
   useEffect(() => {
     const setTime = () => {
-      setTotal((t) => t + 1)
+      setTotal(t => t + 1)
       setTimeout(setTime, 1000)
     }
     setTime()
@@ -56,7 +56,7 @@ const CallModal = () => {
   )
 
   const handleEndCall = () => {
-    tracks && tracks.forEach((track) => track.stop())
+    tracks && tracks.forEach(track => track.stop())
     if (newCall) newCall.close()
     let times = answer ? total : 0
     socket.emit('endCall', { ...call, times })
@@ -80,8 +80,8 @@ const CallModal = () => {
   }, [dispatch, answer, call, socket, addCallMessage])
 
   useEffect(() => {
-    socket.on('endCallToClient', (data) => {
-      tracks && tracks.forEach((track) => track.stop())
+    socket.on('endCallToClient', data => {
+      tracks && tracks.forEach(track => track.stop())
       if (newCall) newCall.close()
       addCallMessage(data, data.times)
       dispatch({ type: GLOBALTYPES.CALL, payload: null })
@@ -91,7 +91,7 @@ const CallModal = () => {
   }, [socket, dispatch, tracks, addCallMessage, newCall])
 
   // Stream Media
-  const openStream = (video) => {
+  const openStream = video => {
     const config = { audio: true, video }
     return navigator.mediaDevices.getUserMedia(config)
   }
@@ -104,7 +104,7 @@ const CallModal = () => {
 
   // Answer Call
   const handleAnswer = () => {
-    openStream(call.video).then((stream) => {
+    openStream(call.video).then(stream => {
       playStream(youVideo.current, stream)
       const track = stream.getTracks()
       setTracks(track)
@@ -119,8 +119,8 @@ const CallModal = () => {
   }
 
   useEffect(() => {
-    peer.on('call', (newCall) => {
-      openStream(call.video).then((stream) => {
+    peer.on('call', newCall => {
+      openStream(call.video).then(stream => {
         if (youVideo.current) {
           playStream(youVideo.current, stream)
         }
@@ -143,7 +143,7 @@ const CallModal = () => {
   // Disconnect
   useEffect(() => {
     socket.on('callerDisconnect', () => {
-      tracks && tracks.forEach((track) => track.stop())
+      tracks && tracks.forEach(track => track.stop())
       if (newCall) newCall.close()
       let times = answer ? total : 0
       addCallMessage(call, times, true)
@@ -160,11 +160,11 @@ const CallModal = () => {
   }, [socket, tracks, dispatch, call, addCallMessage, answer, total, newCall])
 
   // Play - Pause Audio
-  const playAudio = (newAudio) => {
-    newAudio.play()
+  const playAudio = newAudio => {
+    if (newAudio) newAudio.play()
   }
 
-  const pauseAudio = (newAudio) => {
+  const pauseAudio = newAudio => {
     newAudio.pause()
     newAudio.currentTime = 0
   }

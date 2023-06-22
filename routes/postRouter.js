@@ -2,23 +2,32 @@ const router = require('express').Router()
 const postCtrl = require('../controllers/postCtrl')
 const auth = require('../middleware/auth')
 const { classifyImage } = require('../utils/common')
+const TeachableMachine = require('@sashido/teachablemachine-node')
 
 router.get('/prediction-img', async (req, res) => {
-  try {
-    console.log('load image...')
-    const result = await classifyImage(
-      'https://res.cloudinary.com/divarx8nr/image/upload/v1686649831/biker/lanqwzuohqdjnxykzeln.jpg'
-    )
-    console.log(result)
+  const model = new TeachableMachine({
+    modelUrl: 'https://teachablemachine.withgoogle.com/models/LPRhBBSky/',
+  })
 
-    res.status(200).json({
-      data: result,
+  model
+    .classify({
+      imageUrl:
+        // 'https://media-blog.sashido.io/content/images/2020/09/SashiDo_Dog.jpg',
+        // 'https://muaxe.minhlongmoto.com/wp-content/uploads/2019/11/xsr155-mau-xanh-duong.jpg',
+        'https://res.cloudinary.com/divarx8nr/image/upload/v1687424980/biker/gekihifuasz4fsqrozlv.jpg',
+      // 'https://thietbiruaxegiare.net/wp-content/uploads/2019/04/biker-chan-chinh.jpg',
     })
-  } catch (error) {
-    res.status(500).json({
-      error,
+    .then(predictions => {
+      predictions.forEach(item => {
+        item.score = parseFloat(item.score).toFixed(5)
+      })
+      console.log('Predictions:', predictions)
     })
-  }
+    .catch(e => {
+      console.log('ERROR', e)
+    })
+
+  res.status(200).json({ success: true })
 })
 
 router

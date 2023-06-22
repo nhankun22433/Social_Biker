@@ -29,7 +29,7 @@ import * as tf from '@tensorflow/tfjs'
 import * as tmImage from '@teachablemachine/image'
 
 function App() {
-  const { auth, status, modal, call } = useSelector((state) => state)
+  const { auth, status, modal, call } = useSelector(state => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -68,81 +68,6 @@ function App() {
 
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
   }, [dispatch])
-
-  useEffect(() => {
-    const modelURL =
-      'https://teachablemachine.withgoogle.com/models/jIYN5u9iK/model.json' // Replace with your model URL
-    const metadataURL =
-      'https://teachablemachine.withgoogle.com/models/jIYN5u9iK/metadata.json' // Replace with your model URL
-    const classifyImage = async (imageUrl) => {
-      const model = await tmImage.load(modelURL, metadataURL)
-      console.log('model:', model)
-      const classes = model.getClassLabels()
-
-      const image = new Image()
-      image.crossOrigin = 'Anonymous' // Enable CORS if needed
-      image.src = imageUrl
-
-      const preprocessImage = (imageTensor) => {
-        const processedTensor = imageTensor.resizeBilinear([224, 224]).toFloat()
-        const expandedTensor = processedTensor.expandDims()
-        return expandedTensor
-      }
-
-      const makePredictions = async (imageTensor) => {
-        const model = await tf.loadLayersModel(modelURL)
-        const processedTensor = preprocessImage(imageTensor)
-        const predictions = await model.predict(processedTensor).dataSync()
-
-        console.log('process:', predictions)
-
-        // Cleanup
-        model.dispose()
-        processedTensor.dispose()
-
-        return predictions
-      }
-
-      image.onload = async () => {
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        canvas.width = image.width
-        canvas.height = image.height
-        ctx.drawImage(image, 0, 0)
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-
-        const imageTensor = tf.browser.fromPixels(imageData)
-        // Process the imageTensor and make predictions
-        const predictions = await makePredictions(imageTensor)
-        console.log('Predictions:', imageTensor, predictions)
-        console.log(predictions)
-
-        const predictedLabelIndex = predictions.indexOf(
-          Math.max(...predictions)
-        )
-        const predictedLabel = classes[predictedLabelIndex]
-
-        // Display the predicted label
-        console.log('Predicted Label:', predictedLabel, predictions)
-
-        // Cleanup
-        imageTensor.dispose()
-      }
-
-      image.onerror = () => {
-        console.log('Failed to load image:', imageUrl)
-      }
-
-      return 'load...'
-    }
-
-    ;(async () => {
-      const result = await classifyImage(
-        'https://res.cloudinary.com/divarx8nr/image/upload/v1687251623/opf44ncv3lscltovrjss.jpg'
-      )
-      console.log('results: ', result)
-    })()
-  }, [])
 
   return (
     <Router>
