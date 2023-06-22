@@ -17,13 +17,13 @@ router.get('/prediction-img', async (req, res) => {
         'https://res.cloudinary.com/divarx8nr/image/upload/v1687424980/biker/gekihifuasz4fsqrozlv.jpg',
       // 'https://thietbiruaxegiare.net/wp-content/uploads/2019/04/biker-chan-chinh.jpg',
     })
-    .then(predictions => {
-      predictions.forEach(item => {
+    .then((predictions) => {
+      predictions.forEach((item) => {
         item.score = parseFloat(item.score).toFixed(5)
       })
       console.log('Predictions:', predictions)
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('ERROR', e)
     })
 
@@ -41,17 +41,17 @@ router
   .get(auth, postCtrl.getPost)
   .delete(auth, postCtrl.deletePost)
 
-router.patch('/post/:id/like', auth, postCtrl.likePost)
+router.put('/post/:id/like', auth, postCtrl.likePost)
 
-router.patch('/post/:id/unlike', auth, postCtrl.unLikePost)
+router.put('/post/:id/unlike', auth, postCtrl.unLikePost)
 
 router.get('/user_posts/:id', auth, postCtrl.getUserPosts)
 
 router.get('/post_discover', auth, postCtrl.getPostsDicover)
 
-router.patch('/savePost/:id', auth, postCtrl.savePost)
+router.put('/savePost/:id', auth, postCtrl.savePost)
 
-router.patch('/unSavePost/:id', auth, postCtrl.unSavePost)
+router.put('/unSavePost/:id', auth, postCtrl.unSavePost)
 
 router.get('/getSavePosts', auth, postCtrl.getSavePosts)
 

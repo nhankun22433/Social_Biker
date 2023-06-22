@@ -19,7 +19,7 @@ export const POST_TYPES = {
 
 export const createPost =
   ({ content, images, auth, socket }) =>
-  async dispatch => {
+  async (dispatch) => {
     let media = []
     try {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } })
@@ -37,6 +37,7 @@ export const createPost =
       })
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } })
+      dispatch({ type: GLOBALTYPES.STATUS, payload: false })
 
       // Notify
       const msg = {
@@ -57,7 +58,7 @@ export const createPost =
     }
   }
 
-export const getPosts = token => async dispatch => {
+export const getPosts = (token) => async (dispatch) => {
   try {
     dispatch({ type: POST_TYPES.LOADING_POST, payload: true })
     const res = await getDataAPI('posts', token)
@@ -78,10 +79,10 @@ export const getPosts = token => async dispatch => {
 
 export const updatePost =
   ({ content, images, auth, status }) =>
-  async dispatch => {
+  async (dispatch) => {
     let media = []
-    const imgNewUrl = images.filter(img => !img.url)
-    const imgOldUrl = images.filter(img => img.url)
+    const imgNewUrl = images.filter((img) => !img.url)
+    const imgOldUrl = images.filter((img) => img.url)
 
     if (
       status.content === content &&
@@ -106,6 +107,7 @@ export const updatePost =
       dispatch({ type: POST_TYPES.UPDATE_POST, payload: res.data.newPost })
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } })
+      dispatch({ type: GLOBALTYPES.STATUS, payload: false })
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -116,7 +118,7 @@ export const updatePost =
 
 export const likePost =
   ({ post, auth, socket }) =>
-  async dispatch => {
+  async (dispatch) => {
     const newPost = { ...post, likes: [...post.likes, auth.user] }
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
 
@@ -146,10 +148,10 @@ export const likePost =
 
 export const unLikePost =
   ({ post, auth, socket }) =>
-  async dispatch => {
+  async (dispatch) => {
     const newPost = {
       ...post,
-      likes: post.likes.filter(like => like._id !== auth.user._id),
+      likes: post.likes.filter((like) => like._id !== auth.user._id),
     }
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
 
@@ -176,8 +178,8 @@ export const unLikePost =
 
 export const getPost =
   ({ detailPost, id, auth }) =>
-  async dispatch => {
-    if (detailPost.every(post => post._id !== id)) {
+  async (dispatch) => {
+    if (detailPost.every((post) => post._id !== id)) {
       try {
         const res = await getDataAPI(`post/${id}`, auth.token)
         dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
@@ -192,7 +194,7 @@ export const getPost =
 
 export const deletePost =
   ({ post, auth, socket }) =>
-  async dispatch => {
+  async (dispatch) => {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
     try {
@@ -216,7 +218,7 @@ export const deletePost =
 
 export const savePost =
   ({ post, auth }) =>
-  async dispatch => {
+  async (dispatch) => {
     const newUser = { ...auth.user, saved: [...auth.user.saved, post._id] }
     dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } })
 
@@ -232,10 +234,10 @@ export const savePost =
 
 export const unSavePost =
   ({ post, auth }) =>
-  async dispatch => {
+  async (dispatch) => {
     const newUser = {
       ...auth.user,
-      saved: auth.user.saved.filter(id => id !== post._id),
+      saved: auth.user.saved.filter((id) => id !== post._id),
     }
     dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } })
 

@@ -27,10 +27,8 @@ const postCtrl = {
 
       const { content, images } = req.body
       console.log(content, images)
-      if (images.length === 0) {
-        return res.status(400).json({ msg: 'Please add your photo.' })
-      } else {
-        images.forEach(async image => {
+      if (images.length > 0) {
+        images.forEach(async (image) => {
           console.log(image.url)
           const predictions = await model.classify({
             imageUrl: image.url,
@@ -54,7 +52,7 @@ const postCtrl = {
             })
             await newPost.save()
 
-            res.json({
+            return res.json({
               msg: 'Thêm mới thành công!',
               newPost: {
                 ...newPost._doc,
@@ -62,6 +60,21 @@ const postCtrl = {
               },
             })
           }
+        })
+      } else {
+        const newPost = new Posts({
+          content,
+          images,
+          user: req.user._id,
+        })
+        await newPost.save()
+
+        return res.json({
+          msg: 'Thêm mới thành công!',
+          newPost: {
+            ...newPost._doc,
+            user: req.user,
+          },
         })
       }
     } catch (err) {

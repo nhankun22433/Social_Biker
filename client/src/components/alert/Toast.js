@@ -5,7 +5,7 @@ const Toast = ({ msg, handleShow, bgColor }) => {
   useEffect(() => {
     setTimeout(() => {
       btnRef.current?.click()
-    }, 3000)
+    }, 2000)
   })
   return (
     <div

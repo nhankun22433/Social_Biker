@@ -25,17 +25,16 @@ import Peer from 'peerjs'
 import CallModal from './components/message/CallModal'
 import { getNotifies } from './redux/actions/notifyAction'
 
-import * as tf from '@tensorflow/tfjs'
-import * as tmImage from '@teachablemachine/image'
-
 function App() {
-  const { auth, status, modal, call } = useSelector(state => state)
+  const { auth, status, modal, call } = useSelector((state) => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(refreshToken())
 
-    const socket = io()
+    const socket = io('http://localhost:5000', {
+      withCredentials: true,
+    })
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket })
     return () => socket.close()
   }, [dispatch])
