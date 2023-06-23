@@ -16,12 +16,12 @@ app.use(cookieParser())
 
 // Socket
 const http = require('http').createServer(app)
-// const io = require('socket.io')(http)
-const io = new Server(http, {
-  cors: {
-    origin: 'http://localhost:3000',
-  },
-})
+const io = require('socket.io')(http)
+// const io = new Server(http, {
+//   cors: {
+//     origin: 'http://localhost:3000',
+//   },
+// })
 
 io.on('connection', (socket) => {
   SocketServer(socket)

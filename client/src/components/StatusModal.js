@@ -98,7 +98,7 @@ const StatusModal = () => {
 
     setContent('')
     setImages([])
-    // if (tracks) tracks.stop()
+    if (tracks) tracks.stop()
   }
 
   useEffect(() => {

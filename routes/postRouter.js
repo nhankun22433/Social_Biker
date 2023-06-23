@@ -41,17 +41,17 @@ router
   .get(auth, postCtrl.getPost)
   .delete(auth, postCtrl.deletePost)
 
-router.put('/post/:id/like', auth, postCtrl.likePost)
+router.patch('/post/:id/like', auth, postCtrl.likePost)
 
-router.put('/post/:id/unlike', auth, postCtrl.unLikePost)
+router.patch('/post/:id/unlike', auth, postCtrl.unLikePost)
 
 router.get('/user_posts/:id', auth, postCtrl.getUserPosts)
 
 router.get('/post_discover', auth, postCtrl.getPostsDicover)
 
-router.put('/savePost/:id', auth, postCtrl.savePost)
+router.patch('/savePost/:id', auth, postCtrl.savePost)
 
-router.put('/unSavePost/:id', auth, postCtrl.unSavePost)
+router.patch('/unSavePost/:id', auth, postCtrl.unSavePost)
 
 router.get('/getSavePosts', auth, postCtrl.getSavePosts)
 

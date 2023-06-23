@@ -22,7 +22,7 @@ const postCtrl = {
     let check = false
     try {
       const model = new TeachableMachine({
-        modelUrl: 'https://teachablemachine.withgoogle.com/models/LPRhBBSky/',
+        modelUrl: 'https://teachablemachine.withgoogle.com/models/a00iVj3RX/',
       })
 
       const { content, images } = req.body
@@ -35,7 +35,7 @@ const postCtrl = {
           })
           for (let i = 0; i < predictions.length; i++) {
             if (
-              predictions[i].class === 'moto' &&
+              predictions[i].class === 'biker' &&
               predictions[i].score <= 0.7522222222222222
             ) {
               check = true
@@ -43,7 +43,9 @@ const postCtrl = {
           }
 
           if (check) {
-            return res.status(500).json({ msg: 'Hình ảnh không hợp lệ' })
+            return res
+              .status(500)
+              .json({ msg: 'Post invalid, please check the format again' })
           } else {
             const newPost = new Posts({
               content,
@@ -53,7 +55,7 @@ const postCtrl = {
             await newPost.save()
 
             return res.json({
-              msg: 'Thêm mới thành công!',
+              msg: 'Post success',
               newPost: {
                 ...newPost._doc,
                 user: req.user,
@@ -70,7 +72,7 @@ const postCtrl = {
         await newPost.save()
 
         return res.json({
-          msg: 'Thêm mới thành công!',
+          msg: 'Post success',
           newPost: {
             ...newPost._doc,
             user: req.user,
