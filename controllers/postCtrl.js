@@ -36,7 +36,7 @@ const postCtrl = {
           for (let i = 0; i < predictions.length; i++) {
             if (
               predictions[i].class === 'biker' &&
-              predictions[i].score <= 0.7522222222222222
+              predictions[i].score <= 0.9522222222222222
             ) {
               check = true
             }
@@ -45,7 +45,7 @@ const postCtrl = {
           if (check) {
             return res
               .status(500)
-              .json({ msg: 'Post invalid, please check the format again' })
+              .json({ msg: 'Post invalid, please check again ☹️' })
           } else {
             const newPost = new Posts({
               content,
@@ -55,7 +55,7 @@ const postCtrl = {
             await newPost.save()
 
             return res.json({
-              msg: 'Post success',
+              msg: 'Post success 😁',
               newPost: {
                 ...newPost._doc,
                 user: req.user,
@@ -72,7 +72,7 @@ const postCtrl = {
         await newPost.save()
 
         return res.json({
-          msg: 'Post success',
+          msg: 'Post success 😁',
           newPost: {
             ...newPost._doc,
             user: req.user,

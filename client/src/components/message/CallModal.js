@@ -216,7 +216,7 @@ const CallModal = () => {
           )}
         </div>
 
-        {!answer && (
+        {/* {!answer && (
           <div className='timer'>
             <small>{mins.toString().length < 2 ? '0' + mins : mins}</small>
             <small>:</small>
@@ -224,7 +224,7 @@ const CallModal = () => {
               {second.toString().length < 2 ? '0' + second : second}
             </small>
           </div>
-        )}
+        )} */}
 
         <div className='call_menu'>
           <button
