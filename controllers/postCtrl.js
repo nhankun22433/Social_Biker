@@ -17,9 +17,31 @@ class APIfeatures {
   }
 }
 
+// let check = false
+// const imagePrediction = await images.filter(async (image) => {
+//   const predictions = await model.classify({
+//     imageUrl: image.url,
+//   })
+//   const arr = []
+//   for (let i = 0; i < predictions.length; i++) {
+//     if (
+//       predictions[i].class === 'biker' &&
+//       predictions[i].score <= 0.8522222222222222
+//     ) {
+//       arr.push(false)
+//     }
+//     arr.push(true)
+//   }
+//   console.log(arr, predictions)
+//   return !arr.includes(false)
+// })
+// console.log(imagePrediction)
+// images.forEach(async (image) => {
+//   console.log(image.url)
+// })
+
 const postCtrl = {
   createPost: async (req, res) => {
-    let check = false
     try {
       const model = new TeachableMachine({
         modelUrl: 'https://teachablemachine.withgoogle.com/models/a00iVj3RX/',
@@ -28,41 +50,47 @@ const postCtrl = {
       const { content, images } = req.body
       console.log(content, images)
       if (images.length > 0) {
-        images.forEach(async (image) => {
-          console.log(image.url)
-          const predictions = await model.classify({
-            imageUrl: image.url,
-          })
-          for (let i = 0; i < predictions.length; i++) {
-            if (
-              predictions[i].class === 'biker' &&
-              predictions[i].score <= 0.9522222222222222
-            ) {
-              check = true
+        const rightImage = await Promise.all(
+          images.map(async (image) => {
+            const predictions = await model.classify({
+              imageUrl: image.url,
+            })
+
+            for (let i = 0; i < predictions.length; i++) {
+              if (
+                predictions[i].class === 'biker' &&
+                predictions[i].score <= 0.8522222222222222
+              ) {
+                return null
+              }
             }
-          }
+            return image
+          })
+        )
+        console.log(rightImage)
 
-          if (check) {
-            return res
-              .status(500)
-              .json({ msg: 'Post invalid, please check again ☹️' })
-          } else {
-            const newPost = new Posts({
-              content,
-              images,
-              user: req.user._id,
-            })
-            await newPost.save()
+        const newImages = rightImage.filter((img) => img !== null)
 
-            return res.json({
-              msg: 'Post success 😁',
-              newPost: {
-                ...newPost._doc,
-                user: req.user,
-              },
-            })
-          }
-        })
+        if (newImages.length !== images.length) {
+          return res
+            .status(500)
+            .json({ msg: 'Post invalid, please check again ☹️' })
+        } else {
+          const newPost = new Posts({
+            content,
+            images,
+            user: req.user._id,
+          })
+          await newPost.save()
+
+          return res.json({
+            msg: 'Post success 😁',
+            newPost: {
+              ...newPost._doc,
+              user: req.user,
+            },
+          })
+        }
       } else {
         const newPost = new Posts({
           content,
