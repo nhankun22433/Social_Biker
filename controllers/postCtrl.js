@@ -44,7 +44,7 @@ const postCtrl = {
   createPost: async (req, res) => {
     try {
       const model = new TeachableMachine({
-        modelUrl: 'https://teachablemachine.withgoogle.com/models/a00iVj3RX/',
+        modelUrl: 'https://teachablemachine.withgoogle.com/models/TtuehPO2I/',
       })
 
       const { content, images } = req.body
